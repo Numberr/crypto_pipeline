@@ -1,0 +1,8 @@
+.txt
+**/__pycache__/
+.venv/
+logs/
+plugins/
+.env
+*.pyc
+config/airflow.cfg
