@@ -38,11 +38,13 @@ docker compose up -d
 
 ## Метрики в витрине
 
-hourly_return = (close - prev_close) / prev_close * 100
-ma12 = AVG(close) OVER (12 hours)
-ma24 = AVG(close) OVER (24 hours)
-volatility_12h = STDDEV(hourly_return) OVER (12 hours)
-volatility_24h = STDDEV(hourly_return) OVER (24 hours)
+```
+hourly_return     = (close - prev_close) / prev_close * 100
+ma12              = AVG(close) OVER (12 hours)
+ma24              = AVG(close) OVER (24 hours)
+volatility_12h    = STDDEV(hourly_return) OVER (12 hours)
+volatility_24h    = STDDEV(hourly_return) OVER (24 hours)
+```
 
 
 ## Дашборд
