@@ -8,14 +8,14 @@ ETL-пайплайн для сбора и анализа цен монет с б
 
 ## Архитектура
 
-Binance REST API -> hourly klines -> raw_ohlcv
-raw_ohlcv фильтрация, проверки -> stg_ohlcv
-stg_ohlcv window functions: MA, волатильность -> mart_hourly
-mart_hourly -> Metabase Dashboard
+Binance REST API -> hourly klines -> raw_ohlcv  
+raw_ohlcv фильтрация, проверки -> stg_ohlcv  
+stg_ohlcv window functions: MA, волатильность -> mart_hourly  
+mart_hourly -> Metabase Dashboard  
 
-raw_ohlcv — сырые свечи с Binance, как пришли
-stg_ohlcv — очищенные данные с типами и FK на dim_symbol
-mart_hourly — витрина с MA12/MA24, hourly_return, volatility_24h
+raw_ohlcv — сырые свечи с Binance, как пришли  
+stg_ohlcv — очищенные данные с типами и FK на dim_symbol  
+mart_hourly — витрина с MA12/MA24, hourly_return, volatility_24h  
 
 
 ## Запуск:
