@@ -1,17 +1,22 @@
 from airflow import DAG
 from airflow.providers.standard.operators.python import PythonOperator
-from datetime import datetime
+from datetime import datetime, timedelta
 from src.load_raw import fetch_and_load_raw
 from src.sql_functions import create_tables, final_check
 from src.transform import transform_to_mart
 from src.utils import on_check_failure
 
 
+default_args = {
+    'on_failure_callback': on_check_failure,
+}
+
 with DAG(
     dag_id="crypto_pipe",
     start_date=datetime(2025, 5, 1),
     schedule="1 * * * *",
     catchup=False,
+    default_args=default_args
 ) as dag:
 
     init  = PythonOperator(
@@ -31,8 +36,7 @@ with DAG(
 
     check = PythonOperator(
         task_id="final_check_nulls_and_duplicates",
-        python_callable=final_check,
-        on_failure_callback=on_check_failure
+        python_callable=final_check
     )
 
     init >> fetch_raw >> to_mart >> check

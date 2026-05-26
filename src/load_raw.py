@@ -6,12 +6,7 @@ from src.sql_functions import insert_raw_ohlcv, check_last_klines
 from config import SYMBOLS
 
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)s | %(message)s",
-)
 log = logging.getLogger(__name__)
-
 
 def load_symbol(symbol: str, start_time: int | None) -> int:
     log.info(f'Fetching {symbol}')
@@ -29,6 +24,7 @@ def load_symbol(symbol: str, start_time: int | None) -> int:
 def fetch_and_load_raw():
     log.info(f'Starting load for {len(SYMBOLS)} symbols')
     total_inserted = 0
+    failed_symbols = []
 
     last_klines = check_last_klines(SYMBOLS)
 
@@ -42,7 +38,11 @@ def fetch_and_load_raw():
                 
         except Exception:
             log.exception(f"Failed to load {symbol}")
+            failed_symbols.append(symbol)
 
         time.sleep(1)
+
+    if failed_symbols and total_inserted == 0:
+        raise RuntimeError(f"All loads failed: {failed_symbols}")
     
     log.info(f"Done. Total inserted: {total_inserted} rows")
